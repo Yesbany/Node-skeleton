@@ -56,7 +56,18 @@ const deleteConversation = (req, res) => {
 }
 
 const getMessages = (req, res) => {
-
+    const id = req.params.id
+    conversationControllers.findAllMessagesByConversation(id)
+        .then(data => {
+            if (data) {
+                res.status(200).json(data)
+            } else {
+                res.status(404).json({message: 'Conversation with invalid ID'})
+            }
+        })
+        .catch(err => {
+            res.satus(400).json({err: err.message})
+        })
 }
 
 const postNewMessage = (req, res) => {

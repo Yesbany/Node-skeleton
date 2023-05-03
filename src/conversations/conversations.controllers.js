@@ -3,6 +3,7 @@ const uuid = require('uuid')
 const Conversations = require('../models/conversations.models')
 const Users = require('../models/users.models')
 const Participants = require('../models/participants.models')
+const Messages = require('../models/messages.models')
 
 const createConversation = async (conversationObj) => {
     const userGuest = await Users.findOne({
@@ -69,9 +70,31 @@ const deleteConversation = async (id) => {
     return conversation
 }
 
+const findAllMessagesByConversation = async (conversationId) => {
+    const conversation = await Conversations.findAll({
+        where: {
+            id: conversationId
+        },
+        include: [{
+            model: Participants,
+            include: [{
+                model: Messages
+            }]
+        }]
+    })
+
+    return conversation
+}
+
+const createMessage = async (messageObj) => {
+
+}
+
 module.exports = {
     createConversation,
     findConversationById,
     updateConversation,
-    deleteConversation
+    deleteConversation,
+    findAllMessagesByConversation,
+    
 }
