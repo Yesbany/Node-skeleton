@@ -88,6 +88,15 @@ const findAllMessagesByConversation = async (conversationId) => {
 
 const createMessage = async (messageObj) => {
 
+    const newMessage = {
+        id: uuid.v4(),
+        content: messageObj.content,
+        participantId: messageObj.participantId,
+        status: messageObj.status
+    }
+    
+    const data = await Messages.create(newMessage)
+    return data
 }
 
 module.exports = {
@@ -96,5 +105,5 @@ module.exports = {
     updateConversation,
     deleteConversation,
     findAllMessagesByConversation,
-    
+    createMessage
 }

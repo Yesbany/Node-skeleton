@@ -71,7 +71,19 @@ const getMessages = (req, res) => {
 }
 
 const postNewMessage = (req, res) => {
+    const messageObj = req.body
+    const participantId = req.user.id
 
+    conversationControllers.createMessage({...messageObj, participantId})
+        .then(data => {
+            if (!data) {
+                res.status(404).json({message: 'Participant ID not exists'})
+            }
+            res.status(201).json(data)
+        })
+        .catch(err => {
+            res.status(400).json({err: err.message})
+        })
 }
 
 module.exports = {
